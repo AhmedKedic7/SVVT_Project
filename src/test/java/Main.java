@@ -1,6 +1,4 @@
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -9,33 +7,34 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 
-import java.beans.IntrospectionException;
-import java.util.List;
+import java.util.*;
+
+import static java.util.Map.entry;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Main {
     private static WebDriver webDriver;
     private static String baseUrl;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver"); // ovo promjeniti ako ti je na drugacijoj lokaciji (ako budes mijenjao nemoj brisati moje vec samo stavi pod komentar :D)
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         webDriver = new ChromeDriver(options);
+
+        webDriver.get("https://olx.ba/");
+        WebElement slazemSeBtn = webDriver.findElement(By.xpath("//button[@mode='primary']"));
+        slazemSeBtn.click();
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    public void tearDown() {
         if(webDriver != null) webDriver.quit();
     }
 
     @Test
     public void login() throws InterruptedException {
-        webDriver.get("https://olx.ba/");
-
-        WebElement slazemSeBtn = webDriver.findElement(By.xpath("//button[@mode='primary']")); // Mora se prvo kliknuti 'slazem se' button inace mogu nsatati problemi :)
-        slazemSeBtn.click();
-
         WebElement loginBtn = webDriver.findElement(By.xpath("//a[@href='/login']"));
         loginBtn.click();
 
@@ -55,11 +54,6 @@ public class Main {
 
     @Test
     public void registerKlasicniProfil() throws InterruptedException {
-        webDriver.get("https://olx.ba/");
-
-        WebElement slazemSeBtn = webDriver.findElement(By.xpath("//button[@mode='primary']")); // Mora se prvo kliknuti 'slazem se' button inace mogu nsatati problemi :)
-        slazemSeBtn.click();
-
         WebElement registerBtn = webDriver.findElement(By.xpath("//a[@href='/register']"));
         registerBtn.click();
 
@@ -96,11 +90,6 @@ public class Main {
 
     @Test
     public void registerOLXShop() throws InterruptedException {
-        webDriver.get("https://olx.ba/");
-
-        WebElement slazemSeBtn = webDriver.findElement(By.xpath("//button[@mode='primary']")); // Mora se prvo kliknuti 'slazem se' button inace mogu nsatati problemi :)
-        slazemSeBtn.click();
-
         WebElement registerBtn = webDriver.findElement(By.xpath("//a[@href='/register']"));
         registerBtn.click();
 
@@ -150,15 +139,66 @@ public class Main {
 
     @Test
     public void pretraga() throws InterruptedException {
-        webDriver.get("https://olx.ba/");
-
-        WebElement slazemSeBtn = webDriver.findElement(By.xpath("//button[@mode='primary']")); // Mora se prvo kliknuti 'slazem se' button inace mogu nsatati problemi :)
-        slazemSeBtn.click();
-
         WebElement pretraga = webDriver.findElement(By.xpath("//input[@placeholder='Pretraga']"));
         pretraga.sendKeys("mobitel");
         pretraga.sendKeys(Keys.ENTER);
 
         Thread.sleep(10000);
+    }
+
+    @Test
+    public void homeLinkovi() throws InterruptedException {
+
+        LinkedHashMap<String, String> hrefs_stranice = new LinkedHashMap<>();
+        hrefs_stranice.put("/", "https://olx.ba/");
+        hrefs_stranice.put("/kategorije", "https://olx.ba/kategorije");
+        hrefs_stranice.put("/shopovi", "https://olx.ba/shopovi");
+        hrefs_stranice.put("https://marketing.olx.ba/", "https://marketing.olx.ba/");
+        hrefs_stranice.put("https://blog.olx.ba/", "https://blog.olx.ba/");
+        hrefs_stranice.put("https://pomoc.olx.ba/hc/bs", "https://pomoc.olx.ba/hc/bs");
+        hrefs_stranice.put("/o-olxu/o-nama", "https://olx.ba/o-olxu/o-nama");
+        hrefs_stranice.put("/o-olxu/uslovi-koristenja", "https://olx.ba/o-olxu/uslovi-koristenja");
+        hrefs_stranice.put("/o-olxu/olxkredit", "https://olx.ba/o-olxu/olxkredit");
+        hrefs_stranice.put("/o-olxu/online-sigurnost", "https://olx.ba/o-olxu/online-sigurnost");
+        hrefs_stranice.put("/o-olxu/privatnost-podataka", "https://olx.ba/o-olxu/privatnost-podataka");
+
+
+        int i = 1;
+        for (Map.Entry<String, String> entry : hrefs_stranice.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println(i + ". iteration -> " + key + ": " + value);
+
+            if(
+                    !key.equals("https://pomoc.olx.ba/hc/bs") &&
+                    !key.equals("/o-olxu/o-nama") &&
+                    !key.equals("/o-olxu/uslovi-koristenja") &&
+                    !key.equals("/o-olxu/olxkredit") &&
+                    !key.equals("/o-olxu/online-sigurnost") &&
+                    !key.equals("/o-olxu/privatnost-podataka")
+            ) {
+                WebElement webElement = webDriver.findElement(By.xpath("//a[@href='" + key + "']"));
+                Thread.sleep(1000);
+                webElement.click();
+                Thread.sleep(1000);
+                //assertEquals(value, webDriver.getCurrentUrl());
+                Thread.sleep(1000);
+                webDriver.get("https://olx.ba");
+                Thread.sleep(1000);
+            } else {
+                List<WebElement> webElements = webDriver.findElements(By.xpath("//button[@data-v-a48ba1de='']")); // ima vise ovih //button[@data-v-a48ba1de='']" nama treba 2. po redu tj na 1. indexu liste.
+                WebElement ostaliLinkoviBtn = webElements.get(1);
+                ostaliLinkoviBtn.click();
+                WebElement webElement = webDriver.findElement(By.xpath("//a[@href='" + key + "']"));
+                Thread.sleep(1000);
+                webElement.click();
+                Thread.sleep(1000);
+                //assertEquals(value, webDriver.getCurrentUrl());
+                Thread.sleep(1000);
+                webDriver.get("https://olx.ba");
+                Thread.sleep(1000);
+            }
+            i++;
+        }
     }
 }
