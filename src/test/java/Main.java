@@ -122,7 +122,7 @@ public class Main {
         Select regija = new Select(webDriver.findElement(By.xpath("//select[@label='Regija']")));
         regija.selectByValue("1");
 
-        Thread.sleep(1000); // mora ici posto kad klikne regiju treba da klikne mjesto al prebrzo to odradi bez sleep-a pa mora malo sleepati (iskoci error kako nema mjesto Bihac npr)
+        Thread.sleep(1000);
 
         Select mjesto = new Select(webDriver.findElement((By.xpath("//select[@label='Mjesto']"))));
         Thread.sleep(1000);
@@ -200,5 +200,18 @@ public class Main {
             }
             i++;
         }
+    }
+
+    @Test
+    public void otidjiNaKategoriju() throws InterruptedException {
+        WebElement kategorijeLink = webDriver.findElement(By.xpath("//a[@href='/kategorije']"));
+        kategorijeLink.click();
+
+        Thread.sleep(3000);
+        WebElement kategorija = webDriver.findElement(By.xpath("//a[@href='/pretraga?category_id=884']")); // prikolice
+        Thread.sleep(1000);
+        kategorija.click();
+
+        Thread.sleep(3000);
     }
 }
