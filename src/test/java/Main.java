@@ -39,9 +39,6 @@ public class Main {
         WebElement loginBtn = webDriver.findElement(By.xpath("//a[@href='/login']"));
         loginBtn.click();
 
-
-        webDriver.get("https://olx.ba/login");
-
         WebElement username = webDriver.findElement(By.xpath("//input[@name='username']"));
         username.sendKeys("SVVTProjekat558");
         WebElement password = webDriver.findElement(By.xpath("//input[@name='password']"));
@@ -53,13 +50,27 @@ public class Main {
         Thread.sleep(5000);
     }
 
+    String tempMail;
+    @Test
+    public void getTempMail() throws InterruptedException {
+        webDriver.get("https://temp-mail.org/en/");
+        Thread.sleep(5000);
+
+        WebElement mail = webDriver.findElement(By.xpath("//input[@id='mail']"));
+        Thread.sleep(1000);
+        tempMail = mail.getAttribute("value");
+        System.out.println(tempMail);
+        webDriver.get("https://olx.ba/register");
+    }
+
     @Test
     public void registerKlasicniProfil() throws InterruptedException {
-        WebElement registerBtn = webDriver.findElement(By.xpath("//a[@href='/register']"));
-        registerBtn.click();
+        getTempMail();
 
+        Thread.sleep(3000);
 
-        webDriver.get("https://olx.ba/register");
+        /*WebElement registerBtn = webDriver.findElement(By.xpath("//a[@href='/register']"));
+        registerBtn.click();*/
 
         List<WebElement> inputFields = webDriver.findElements(By.tagName("input")); // spol, regija i mjesto nisu uracunati jer su select, a ne input
         WebElement email_brojTel = inputFields.get(0);
@@ -70,9 +81,13 @@ public class Main {
         Select spol = new Select(webDriver.findElement(By.xpath("//select[@data-v-5da4175e='']")));
         spol.selectByValue("male");
 
-        email_brojTel.sendKeys("svvt3567@gmail.com");
+        email_brojTel.sendKeys(tempMail);
+        sifra.sendKeys("bananabananabanana");
+        vaseOlxIme.sendKeys("hd_asj_dha_h");
+
+        /*email_brojTel.sendKeys("svvt3567@gmail.com");
         sifra.sendKeys("najjacasifraikada123");
-        vaseOlxIme.sendKeys("SVVTProjekat558");
+        vaseOlxIme.sendKeys("SVVTProjekat558");*/
         slazemSeSaUslovima.click();
 
         Select regija = new Select(webDriver.findElement(By.xpath("//select[@label='Regija']")));
@@ -83,7 +98,7 @@ public class Main {
         Select mjesto = new Select(webDriver.findElement((By.xpath("//select[@label='Mjesto']"))));
         mjesto.selectByVisibleText("Bihać");
 
-        registerBtn = webDriver.findElement(By.xpath("//button[@data-v-3de08799='']"));
+        WebElement registerBtn = webDriver.findElement(By.xpath("//button[@data-v-3de08799='']"));
         registerBtn.click();
 
         Thread.sleep(7000);
@@ -234,17 +249,5 @@ public class Main {
         dodajUKorpu.click();
 
         Thread.sleep(5000);
-    }
-
-    String tempMail;
-    @Test
-    public void getTempMail() throws InterruptedException {
-        webDriver.get("https://temp-mail.org/en/");
-        Thread.sleep(5000);
-
-        WebElement mail = webDriver.findElement(By.xpath("//input[@id='mail']"));
-        tempMail = mail.getAttribute("value");
-        System.out.println("Ovdje bi trebao mail da pise :D");
-        System.out.println(tempMail);
     }
 }
