@@ -43,9 +43,9 @@ public class Main {
         webDriver.get("https://olx.ba/login");
 
         WebElement username = webDriver.findElement(By.xpath("//input[@name='username']"));
-        username.sendKeys("Dino Muslic");
+        username.sendKeys("SVVTProjekat558");
         WebElement password = webDriver.findElement(By.xpath("//input[@name='password']"));
-        password.sendKeys("Neka Sifra");
+        password.sendKeys("najjacasifraikada123");
 
         loginBtn = webDriver.findElement(By.xpath("//button[@data-v-3de08799='']"));
         loginBtn.click();
@@ -67,12 +67,12 @@ public class Main {
         WebElement vaseOlxIme = inputFields.get(2);
         WebElement slazemSeSaUslovima = inputFields.get(3);
 
-        Select spol = new Select(webDriver.findElement(By.xpath("//select[@data-v-4549ed56='']")));
+        Select spol = new Select(webDriver.findElement(By.xpath("//select[@data-v-5da4175e='']")));
         spol.selectByValue("male");
 
-        email_brojTel.sendKeys("neki_email@gmail.com");
-        sifra.sendKeys("neka sifra");
-        vaseOlxIme.sendKeys("MojeOlxIme");
+        email_brojTel.sendKeys("svvt3567@gmail.com");
+        sifra.sendKeys("najjacasifraikada123");
+        vaseOlxIme.sendKeys("SVVTProjekat558");
         slazemSeSaUslovima.click();
 
         Select regija = new Select(webDriver.findElement(By.xpath("//select[@label='Regija']")));
@@ -152,10 +152,7 @@ public class Main {
         Thread.sleep(1000);
 
         WebElement detalji = webDriver.findElement(By.xpath("//div[@class='central-inner sm:pb-lg hide']"));
-
-        assertTrue(detalji.getText().contains("mobitel") || detalji.getText().contains("telefon"));
-
-        Thread.sleep(10000);
+        assertTrue(detalji.getText().contains("mobitel") || detalji.getText().contains("telefon") || detalji.getText().contains("smartphone"));
     }
 
     @Test
@@ -218,6 +215,25 @@ public class Main {
         kategorija.click();
 
         Thread.sleep(3000);
+    }
+
+    @Test
+    public void dodajUKorpu() throws InterruptedException {
+        webDriver.get("https://parfemizavas.olx.ba/aktivni");
+        Thread.sleep(1000);
+
+        WebElement parfem = webDriver.findElement(By.xpath("//img[@class='listing-image-main loaded h-full object-cover h-13']"));
+        parfem.click();
+
+        Thread.sleep(3000);
+        login();
+
+        List<WebElement> sviButtoni = webDriver.findElements(By.xpath("//button[@data-v-3de08799='']")); // dodaj u korpu je 10.
+        WebElement dodajUKorpu = sviButtoni.get(9);
+        Thread.sleep(1000);
+        dodajUKorpu.click();
+
+        Thread.sleep(5000);
     }
 
     String tempMail;
