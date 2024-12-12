@@ -11,6 +11,7 @@ import java.util.*;
 
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Main {
     private static WebDriver webDriver;
@@ -143,6 +144,17 @@ public class Main {
         pretraga.sendKeys("mobitel");
         pretraga.sendKeys(Keys.ENTER);
 
+        Thread.sleep(3000);
+
+        WebElement mobitel = webDriver.findElement(By.xpath("//img[@data-v-20c6ee96='']"));
+        mobitel.click();
+
+        Thread.sleep(1000);
+
+        WebElement detalji = webDriver.findElement(By.xpath("//div[@class='central-inner sm:pb-lg hide']"));
+
+        assertTrue(detalji.getText().contains("mobitel") || detalji.getText().contains("telefon"));
+
         Thread.sleep(10000);
     }
 
@@ -181,21 +193,14 @@ public class Main {
                 Thread.sleep(1000);
                 webElement.click();
                 Thread.sleep(1000);
-                //assertEquals(value, webDriver.getCurrentUrl());
-                Thread.sleep(1000);
-                webDriver.get("https://olx.ba");
                 Thread.sleep(1000);
             } else {
-                List<WebElement> webElements = webDriver.findElements(By.xpath("//button[@data-v-a48ba1de='']")); // ima vise ovih //button[@data-v-a48ba1de='']" nama treba 2. po redu tj na 1. indexu liste.
+                List<WebElement> webElements = webDriver.findElements(By.xpath("//button[@data-v-473a361f='']")); // ima vise ovih //button[@data-v-473a361f=''] nama treba 2. po redu tj na 1. indexu liste.
                 WebElement ostaliLinkoviBtn = webElements.get(1);
                 ostaliLinkoviBtn.click();
                 WebElement webElement = webDriver.findElement(By.xpath("//a[@href='" + key + "']"));
                 Thread.sleep(1000);
                 webElement.click();
-                Thread.sleep(1000);
-                //assertEquals(value, webDriver.getCurrentUrl());
-                Thread.sleep(1000);
-                webDriver.get("https://olx.ba");
                 Thread.sleep(1000);
             }
             i++;
@@ -213,5 +218,17 @@ public class Main {
         kategorija.click();
 
         Thread.sleep(3000);
+    }
+
+    String tempMail;
+    @Test
+    public void getTempMail() throws InterruptedException {
+        webDriver.get("https://temp-mail.org/en/");
+        Thread.sleep(5000);
+
+        WebElement mail = webDriver.findElement(By.xpath("//input[@id='mail']"));
+        tempMail = mail.getAttribute("value");
+        System.out.println("Ovdje bi trebao mail da pise :D");
+        System.out.println(tempMail);
     }
 }
