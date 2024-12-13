@@ -25,6 +25,7 @@ public class Main {
         webDriver = new ChromeDriver(options);
 
         webDriver.get("https://olx.ba/");
+        webDriver.manage().window().maximize();
         WebElement slazemSeBtn = webDriver.findElement(By.xpath("//button[@mode='primary']"));
         slazemSeBtn.click();
     }
@@ -82,7 +83,7 @@ public class Main {
         spol.selectByValue("male");
 
         email_brojTel.sendKeys(tempMail);
-        sifra.sendKeys("bananabananabanana");
+        sifra.sendKeys("jakojakasifra312");
         vaseOlxIme.sendKeys("hd_asj_dha_h");
 
         /*email_brojTel.sendKeys("svvt3567@gmail.com");
@@ -109,7 +110,7 @@ public class Main {
         WebElement registerBtn = webDriver.findElement(By.xpath("//a[@href='/register']"));
         registerBtn.click();
 
-        WebElement olxShopBtn = webDriver.findElement(By.xpath("//li[@data-v-4549ed56=''][2]"));
+        WebElement olxShopBtn = webDriver.findElement(By.xpath("//ul[@class='register-types']//li[2]"));
         olxShopBtn.click();
 
         List<WebElement> inputFields = webDriver.findElements(By.xpath("//input[@data-v-1c6f47e2='']")); // vraca sve input fieldove gdje se manuelno unosi nesto tj, nema selectanja (email, sifra, ime firme, id broj, telefon, web stranica)
@@ -167,7 +168,19 @@ public class Main {
         Thread.sleep(1000);
 
         WebElement detalji = webDriver.findElement(By.xpath("//div[@class='central-inner sm:pb-lg hide']"));
-        assertTrue(detalji.getText().contains("mobitel") || detalji.getText().contains("telefon") || detalji.getText().contains("smartphone"));
+        assertTrue(
+                detalji.getText().contains("mobitel")
+                        || detalji.getText().contains("telefon")
+                        || detalji.getText().contains("smartphone")
+                        || detalji.getText().contains("Mobitel")
+                        || detalji.getText().contains("Telefon")
+                        || detalji.getText().contains("Smartphohe")
+                        || detalji.getText().contains("MOBITEL")
+                        || detalji.getText().contains("TELEFON")
+                        || detalji.getText().contains("SMARTPHONE")
+        );
+
+        Thread.sleep(5000);
     }
 
     @Test
@@ -229,6 +242,10 @@ public class Main {
         Thread.sleep(1000);
         kategorija.click();
 
+        Thread.sleep(5000);
+        WebElement prikolica = webDriver.findElement(By.xpath("//div[@class='min-h-13 h-170 relative hover-image']"));
+        prikolica.click();
+
         Thread.sleep(3000);
     }
 
@@ -249,5 +266,28 @@ public class Main {
         dodajUKorpu.click();
 
         Thread.sleep(5000);
+    }
+
+    @Test
+    public void listajStory() throws InterruptedException {
+        WebElement idiDesnoButton = webDriver.findElement(By.xpath("//button[@data-glide-dir='>']"));
+
+        for(int i = 0; i < 10; i++) {
+            idiDesnoButton.click();
+            Thread.sleep(1000);
+        }
+    }
+
+    @Test
+    public void filtrirajIzdvojeneOglase() throws InterruptedException {
+        Thread.sleep(1000);
+        WebElement filtrirajBtn = webDriver.findElement(By.xpath("//div[@class='px-md mb-lg flex items-center pt-lg justify-between']//button"));
+        filtrirajBtn.click();
+
+        Thread.sleep(1000);
+        WebElement kompjuteri = webDriver.findElement(By.xpath("//ul[@class='custom-list checkbox']//li[6]"));
+        kompjuteri.click();
+
+        Thread.sleep(3000);
     }
 }
