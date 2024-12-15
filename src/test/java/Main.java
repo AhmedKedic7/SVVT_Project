@@ -377,10 +377,11 @@ public class Main {
     @Test
     public void izbaciIzKorpe() throws InterruptedException {
         login();
+        //dodajUKorpu();
         webDriver.get(baseUrl);
         WebElement shoppingCart = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='flex items-center mr-md my-articles border-r border-gray-400 pr-md']")));
         shoppingCart.click();
-        WebElement xButton =  webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='h-7 w-7']']")));
+        WebElement xButton =  webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='h-7 w-7']")));
         xButton.click();
         Thread.sleep(3000);
     }
