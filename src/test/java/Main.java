@@ -373,6 +373,33 @@ public class Main {
     }
 
     // mijenjanje korisnicko info
+    @Test
+    public void promijeniInfo() throws InterruptedException {
+        login();
+        WebElement profilLink = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/profil/SVVTProjekat558/aktivni']")));
+        profilLink.click();
+
+        WebElement postavke = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Postavke')]")));
+        postavke.click();
+
+        Thread.sleep(2000);
+        List<WebElement> inputs = webDriver.findElements(By.xpath("//input[@type='text']"));
+        Thread.sleep(1000);
+        WebElement ime = inputs.get(0);
+        ime.sendKeys("Kedy");
+        Thread.sleep(1000);
+        WebElement prezime = inputs.get(1);
+        prezime.sendKeys("Muslic");
+
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+        js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+
+        WebElement spasiIzmjene = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='mt-lg']")));
+        Thread.sleep(1000);
+        spasiIzmjene.click();
+
+        Thread.sleep(2000);
+    }
 
     @Test
     public void izbaciIzKorpe() throws InterruptedException {
