@@ -2,18 +2,13 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.time.Duration;
 import java.util.*;
-
-import static java.util.Map.entry;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Main {
@@ -301,14 +296,42 @@ public class Main {
         Thread.sleep(7000);
     }
 
-    // otici na profil osobe koja je objavila oglas i napisati im nesto
+    @Test
+    public void posaljiPoruku() throws InterruptedException  {
+        login();
+        Thread.sleep(1000);
+        webDriver.get("https://olx.ba/artikal/65424929#");
+        Thread.sleep(1000);
+        List<WebElement> poruka = webDriver.findElements(By.xpath("//button[.//text()[contains(., 'Poruka')]]"));
+        Thread.sleep(1000);
+        poruka.get(1).click();
 
-    // podijeliti link oglasa
+        WebElement textarea = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@class='flex-auto']")));
+        textarea.sendKeys("Nemojte da Vas moram sakom spucavati koliko memorije ima laptop?!");
 
-    // dodavanje i brisanje komentara
+        WebElement posaljiPorukuBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Pošalji poruku')]]")));
+        posaljiPorukuBtn.click();
 
-    // dodati filtere kod onih okruglih ...
+        Thread.sleep(3000);
+    }
 
+    @Test
+    public void dodajUpit() throws InterruptedException {
+        login();
+        Thread.sleep(1000);
+        webDriver.get("https://olx.ba/artikal/65424929#");
+
+        WebElement textarea = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@placeholder='Postavi pitanje korisniku']")));
+        textarea.sendKeys("Poštovanje, koji je SSD i koliko ima memorije?");
+
+        WebElement btn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Postavi pitanje')]]")));
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+        js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", btn);
+
+        Thread.sleep(2000);
+        btn.click();
+        Thread.sleep(3000);
+    }
 
     @Test
     public void filtirajOglase() throws InterruptedException {
@@ -372,7 +395,6 @@ public class Main {
         Thread.sleep(10000);
     }
 
-    // mijenjanje korisnicko info
     @Test
     public void promijeniInfo() throws InterruptedException {
         login();
@@ -414,6 +436,75 @@ public class Main {
     }
 
     // objavi oglas
+    @Test
+    public void objaviOglas() throws InterruptedException {
+        login();
+        WebElement objaviOglas = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Objavi oglas')]")));
+        objaviOglas.click();
 
-    // edit oglas
+        WebElement osatloBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='item-Objavite nešto drugo']")));
+        osatloBtn.click();
+
+        WebElement input = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@class='']")));
+        input.sendKeys("Laptop, 16GB Ram, 1TB SSD");
+
+        WebElement nastavi = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Nastavi')]]")));
+        nastavi.click();
+
+        WebElement kategorija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='kategorija']")));
+        kategorija.click();
+
+        Thread.sleep(10000);
+
+        Select proizvodjac = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='Proizvođač']"))));
+        proizvodjac.selectByIndex(1);
+
+        Thread.sleep(1000);
+
+        List<WebElement> switches = webDriver.findElements(By.xpath("//label[@class='switch']"));
+        switches.get(0).click();
+
+        Thread.sleep(1000);
+
+        WebElement sljedeciKorak = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Sljedeći korak')]]")));
+        sljedeciKorak.click();
+
+        Thread.sleep(1000);
+
+        Select display = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='Display (incha)']"))));
+        Thread.sleep(1000);
+        display.selectByIndex(2);
+
+        Thread.sleep(1000);
+
+        Select os = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='Operativni sistem']"))));
+        Thread.sleep(1000);
+        os.selectByIndex(2);
+
+        Thread.sleep(1000);
+
+        WebElement procesor = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonAMD']")));
+        procesor.click();
+
+        Thread.sleep(1000);
+
+        Select ram = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='RAM']"))));
+        Thread.sleep(1000);
+        ram.selectByIndex(2);
+
+        Thread.sleep(1000);
+
+        WebElement graficka = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonIntegrisana']")));
+        graficka.click();
+
+        Thread.sleep(1000);
+        sljedeciKorak.click();
+
+        //WebElement zavrsiObjavu = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Završi objavu oglasa')]]")));
+        //zavrsiObjavu.click();
+
+        Thread.sleep(5000);
+    }
+
+    // obrisi oglas
 }
