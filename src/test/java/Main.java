@@ -66,7 +66,7 @@ public class Main {
 
     @Test
     public void registerKlasicniProfil() throws InterruptedException {
-        getTempMail();
+        //getTempMail();
 
         Thread.sleep(3000);
 
@@ -290,4 +290,36 @@ public class Main {
 
         Thread.sleep(3000);
     }
+
+    // otici na profil osobe koja je objavila oglas i napisati im nesto
+
+    // podijeliti link oglasa
+
+    // dodavanje i brisanje komentara
+
+    // dodati filtere god onih okruglih ...
+
+    // dodati filere za oglase
+
+    // popraviti registar
+
+    // mijenjanje korisnicko info
+
+    // izbaciti iz korpe
+    @Test
+    public void izbaciIzKorpe() throws InterruptedException {
+        login();
+        webDriver.get("https://olx.ba/");
+        Thread.sleep(1000);
+        WebElement shoppingCart = webDriver.findElement(By.xpath("//button[@class='flex items-center mr-md my-articles border-r border-gray-400 pr-md']"));
+        shoppingCart.click();
+        Thread.sleep(1000);
+        WebElement xButton = webDriver.findElement(By.xpath("//button[@class='h-7 w-7']"));
+        xButton.click();
+        Thread.sleep(3000);
+    }
+
+    // objavi oglas
+
+    // edit oglas
 }
