@@ -326,7 +326,8 @@ public class Main {
 
         WebElement btn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Postavi pitanje')]]")));
         JavascriptExecutor js = (JavascriptExecutor) webDriver;
-        js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", btn);
+        Thread.sleep(5000);
+        js.executeScript("window.scrollBy(0,1000)");
 
         Thread.sleep(2000);
         btn.click();
@@ -435,7 +436,6 @@ public class Main {
         Thread.sleep(3000);
     }
 
-    // objavi oglas
     @Test
     public void objaviOglas() throws InterruptedException {
         login();
@@ -492,10 +492,9 @@ public class Main {
         WebElement zavrsiObjavu = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Završi objavu oglasa')]]")));
         zavrsiObjavu.click();
 
-        Thread.sleep(105000);
+        Thread.sleep(5000);
     }
 
-    // obrisi oglas
     @Test
     public void obirsiOglas() throws InterruptedException {
         login();
@@ -517,6 +516,44 @@ public class Main {
 
         List<WebElement> da = webDriver.findElements(By.xpath("//div[@class='option-button delete']"));
         da.get(1).click();
+
+        Thread.sleep(3000);
+    }
+
+    @Test
+    public void editOglas() throws  InterruptedException {
+        login();
+        webDriver.get("https://olx.ba/mojolx/artikli/aktivni");
+
+        List<WebElement> oglas = webDriver.findElements(By.xpath("//div[@class='w-full']"));
+        Actions actions = new Actions(webDriver);
+        actions.moveToElement(oglas.get(1)).perform();
+
+        Thread.sleep(1000);
+
+        WebElement urediBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Uredi')]]")));
+        urediBtn.click();
+
+        Thread.sleep(3000);
+
+        WebElement input = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@class='w-full']")));
+        input.sendKeys(", BMX");
+
+        Thread.sleep(1000);
+
+       WebElement muskiBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonMuško']")));
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+        js.executeScript("window.scrollBy(0,500)");
+        Thread.sleep(2000);
+        muskiBtn.click();
+
+        Thread.sleep(1000);
+
+
+        WebElement zavrsiUredjivanjeBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Završi uređivanje')]]")));
+        js.executeScript("arguments[0].scrollIntoView(true);", zavrsiUredjivanjeBtn);
+        Thread.sleep(2000);
+        zavrsiUredjivanjeBtn.click();
 
         Thread.sleep(3000);
     }
