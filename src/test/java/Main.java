@@ -2,6 +2,7 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,6 +23,7 @@ public class Main {
         System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver"); // ovo promjeniti ako ti je na drugacijoj lokaciji (ako budes mijenjao nemoj brisati moje vec samo stavi pod komentar :D)
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
+        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
         webDriver = new ChromeDriver(options);
         webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
 
@@ -56,7 +58,6 @@ public class Main {
 
     @Test
     public void logout() throws InterruptedException {
-        // prije logina treba manuelno kliknuti na x button "Chrome is being controlled by..."
         login();
 
         WebElement menuBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@src='/svg/menu.svg']")));
@@ -266,10 +267,9 @@ public class Main {
         Thread.sleep(3000);
         login();
 
-        List<WebElement> sviButtoni = webDriver.findElements(By.xpath("//button[@data-v-3de08799='']")); // dodaj u korpu je 10.
-        WebElement dodajUKorpu = sviButtoni.get(9);
+        List<WebElement> dodajUKorpu = webDriver.findElements(By.xpath("//button[.//text()[contains(., 'Dodaj u korpu')]]"));
         Thread.sleep(1000);
-        dodajUKorpu.click();
+        dodajUKorpu.get(1).click();
 
         Thread.sleep(3000);
     }
@@ -307,7 +307,7 @@ public class Main {
         poruka.get(1).click();
 
         WebElement textarea = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@class='flex-auto']")));
-        textarea.sendKeys("Nemojte da Vas moram sakom spucavati koliko memorije ima laptop?!");
+        textarea.sendKeys("Test metode posaljiPoruku()");
 
         WebElement posaljiPorukuBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Pošalji poruku')]]")));
         posaljiPorukuBtn.click();
@@ -446,7 +446,9 @@ public class Main {
         osatloBtn.click();
 
         WebElement input = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@class='']")));
-        input.sendKeys("Laptop, 16GB Ram, 1TB SSD");
+        input.sendKeys("Biciklo, povoljno");
+
+        Thread.sleep(1000);
 
         WebElement nastavi = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Nastavi')]]")));
         nastavi.click();
@@ -457,54 +459,65 @@ public class Main {
         Thread.sleep(10000);
 
         Select proizvodjac = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='Proizvođač']"))));
+        Thread.sleep(1000);
         proizvodjac.selectByIndex(1);
 
-        Thread.sleep(1000);
-
         List<WebElement> switches = webDriver.findElements(By.xpath("//label[@class='switch']"));
+        Thread.sleep(1000);
         switches.get(0).click();
 
-        Thread.sleep(1000);
-
         WebElement sljedeciKorak = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Sljedeći korak')]]")));
+        Thread.sleep(1000);
+        sljedeciKorak.click();
+
+        WebElement bmxButton = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonBMX']")));
+        bmxButton.click();
+
+        Thread.sleep(1000);
+
+        WebElement unisex = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonUnisex']")));
+        unisex.click();
+
+        Thread.sleep(1000);
+
+        WebElement brojBrzina = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='broj-brzina']")));
+        brojBrzina.sendKeys("21");
+
+        Thread.sleep(1000);
+
         sljedeciKorak.click();
 
         Thread.sleep(1000);
 
-        Select display = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='Display (incha)']"))));
-        Thread.sleep(1000);
-        display.selectByIndex(2);
+        WebElement zavrsiObjavu = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Završi objavu oglasa')]]")));
+        zavrsiObjavu.click();
 
-        Thread.sleep(1000);
-
-        Select os = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='Operativni sistem']"))));
-        Thread.sleep(1000);
-        os.selectByIndex(2);
-
-        Thread.sleep(1000);
-
-        WebElement procesor = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonAMD']")));
-        procesor.click();
-
-        Thread.sleep(1000);
-
-        Select ram = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='RAM']"))));
-        Thread.sleep(1000);
-        ram.selectByIndex(2);
-
-        Thread.sleep(1000);
-
-        WebElement graficka = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonIntegrisana']")));
-        graficka.click();
-
-        Thread.sleep(1000);
-        sljedeciKorak.click();
-
-        //WebElement zavrsiObjavu = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Završi objavu oglasa')]]")));
-        //zavrsiObjavu.click();
-
-        Thread.sleep(5000);
+        Thread.sleep(105000);
     }
 
     // obrisi oglas
+    @Test
+    public void obirsiOglas() throws InterruptedException {
+        login();
+        webDriver.get("https://olx.ba/mojolx/artikli/aktivni");
+
+        List<WebElement> oglas = webDriver.findElements(By.xpath("//div[@class='w-full']"));
+        Actions actions = new Actions(webDriver);
+        actions.moveToElement(oglas.get(1)).perform();
+
+        Thread.sleep(1000);
+
+        WebElement zavrsiBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Završi')]]")));
+        zavrsiBtn.click();
+
+        Thread.sleep(1000);
+
+        WebElement izbrisi = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='option-button delete']")));
+        izbrisi.click();
+
+        List<WebElement> da = webDriver.findElements(By.xpath("//div[@class='option-button delete']"));
+        da.get(1).click();
+
+        Thread.sleep(3000);
+    }
 }
