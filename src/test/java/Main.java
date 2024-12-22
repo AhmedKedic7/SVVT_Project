@@ -39,7 +39,6 @@ public class Main {
         if(webDriver != null) webDriver.quit();
     }
 
-
     @Test
     public void login() throws InterruptedException {
         WebElement loginBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
@@ -54,6 +53,22 @@ public class Main {
         loginBtn.click();
 
         Thread.sleep(3000);
+    }
+
+    @Test
+    public void loginFail() throws InterruptedException {
+        WebElement loginBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
+        loginBtn.click();
+
+        WebElement username = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='username']")));
+        username.sendKeys("SVVTProjekat558");
+        WebElement password = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='password']")));
+        password.sendKeys("najjacasifraikada1234");
+
+        loginBtn = webDriver.findElement(By.xpath("//button[@data-v-3de08799='']"));
+        loginBtn.click();
+
+        Thread.sleep(5000);
     }
 
     @Test
@@ -201,6 +216,18 @@ public class Main {
                         || detalji.getText().contains("TELEFON")
                         || detalji.getText().contains("SMARTPHONE")
         );
+
+        Thread.sleep(3000);
+    }
+
+    @Test
+    public void pretragaFail() throws InterruptedException {
+        WebElement pretraga = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Pretraga']")));
+        pretraga.sendKeys("djfskfjsdklfjs");
+        pretraga.sendKeys(Keys.ENTER);
+
+        WebElement item = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@data-v-20c6ee96='']")));
+        item.click();
 
         Thread.sleep(3000);
     }
