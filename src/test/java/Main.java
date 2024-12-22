@@ -364,6 +364,25 @@ public class Main {
     }
 
     @Test
+    public void posaljiPorukuFail() throws InterruptedException  {
+        login();
+        Thread.sleep(1000);
+        webDriver.get("https://olx.ba/artikal/65424929#");
+        Thread.sleep(1000);
+        List<WebElement> poruka = webDriver.findElements(By.xpath("//button[.//text()[contains(., 'Poruka')]]"));
+        Thread.sleep(1000);
+        poruka.get(1).click();
+
+        WebElement textarea = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@class='flex-auto']")));
+        textarea.sendKeys("");
+
+        WebElement posaljiPorukuBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Pošalji poruku')]]")));
+        posaljiPorukuBtn.click();
+
+        Thread.sleep(3000);
+    }
+
+    @Test
     public void dodajUpit() throws InterruptedException {
         login();
         Thread.sleep(1000);
@@ -376,6 +395,25 @@ public class Main {
         JavascriptExecutor js = (JavascriptExecutor) webDriver;
         Thread.sleep(5000);
         js.executeScript("window.scrollBy(0,1000)");
+
+        Thread.sleep(2000);
+        btn.click();
+        Thread.sleep(3000);
+    }
+
+    @Test
+    public void dodajUpitFail() throws InterruptedException {
+        login();
+        Thread.sleep(1000);
+        webDriver.get("https://olx.ba/artikal/65424929#");
+
+        WebElement textarea = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@placeholder='Postavi pitanje korisniku']")));
+        textarea.sendKeys("");
+
+        WebElement btn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Postavi pitanje')]]")));
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+        Thread.sleep(5000);
+        js.executeScript("window.scrollBy(0,750)");
 
         Thread.sleep(2000);
         btn.click();
@@ -518,6 +556,65 @@ public class Main {
         List<WebElement> switches = webDriver.findElements(By.xpath("//label[@class='switch']"));
         Thread.sleep(1000);
         switches.get(0).click();
+
+        WebElement sljedeciKorak = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Sljedeći korak')]]")));
+        Thread.sleep(1000);
+        sljedeciKorak.click();
+
+        WebElement bmxButton = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonBMX']")));
+        bmxButton.click();
+
+        Thread.sleep(1000);
+
+        WebElement unisex = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonUnisex']")));
+        unisex.click();
+
+        Thread.sleep(1000);
+
+        WebElement brojBrzina = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='broj-brzina']")));
+        brojBrzina.sendKeys("21");
+
+        Thread.sleep(1000);
+
+        sljedeciKorak.click();
+
+        Thread.sleep(1000);
+
+        WebElement zavrsiObjavu = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Završi objavu oglasa')]]")));
+        zavrsiObjavu.click();
+
+        Thread.sleep(5000);
+    }
+
+    @Test
+    public void objaviOglasFail() throws InterruptedException {
+        login();
+        WebElement objaviOglas = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Objavi oglas')]")));
+        objaviOglas.click();
+
+        WebElement osatloBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='item-Objavite nešto drugo']")));
+        osatloBtn.click();
+
+        WebElement input = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@class='']")));
+        input.sendKeys("Biciklo, povoljno");
+
+        Thread.sleep(1000);
+
+        WebElement nastavi = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Nastavi')]]")));
+        nastavi.click();
+
+        WebElement kategorija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='kategorija']")));
+        kategorija.click();
+
+        Thread.sleep(10000);
+
+        Select proizvodjac = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='Proizvođač']"))));
+        Thread.sleep(1000);
+        proizvodjac.selectByIndex(1);
+
+        /*List<WebElement> switches = webDriver.findElements(By.xpath("//label[@class='switch']"));
+        Thread.sleep(1000);
+        switches.get(0).click();*/
 
         WebElement sljedeciKorak = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Sljedeći korak')]]")));
         Thread.sleep(1000);
