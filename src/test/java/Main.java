@@ -40,6 +40,12 @@ public class Main {
     }
 
     @Test
+    public void https() {
+        webDriver.get(baseUrl);
+        assertTrue(webDriver.getCurrentUrl().startsWith("https"));
+    }
+
+    @Test
     public void login() throws InterruptedException {
         WebElement loginBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
         loginBtn.click();
@@ -444,6 +450,85 @@ public class Main {
         WebElement do_ = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='do']")));
         Thread.sleep(1000);
         do_.sendKeys("20000");
+
+        WebElement lokacija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Lokacija')]")));
+        Thread.sleep(1000);
+        lokacija.click();
+        Select lokacija_ = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='text-base font-bold border-none rounded-lg py-2 px-md search-bg']"))));
+        Thread.sleep(1000);
+        lokacija_.selectByVisibleText("Kanton Sarajevo");
+
+        WebElement godiste = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Godište')]")));
+        Thread.sleep(1000);
+        godiste.click();
+        Select god_od =  new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='mr-sm']"))));
+        Thread.sleep(1000);
+        god_od.selectByVisibleText("2000");
+        Select god_do = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='ml-sm']"))));
+        Thread.sleep(1000);
+        god_do.selectByVisibleText("2025");
+
+        WebElement gorivo = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Gorivo')]")));
+        Thread.sleep(1000);
+        gorivo.click();
+        WebElement dizel = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Dizel')]")));
+        Thread.sleep(1000);
+        dizel.click();
+        WebElement benzin = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Benzin')]")));
+        Thread.sleep(1000);
+        benzin.click();
+
+        WebElement transmisija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Transmisija')]")));
+        Thread.sleep(1000);
+        transmisija.click();
+        WebElement manuelni = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Manuelni')]")));
+        Thread.sleep(1000);
+        manuelni.click();
+
+        WebElement kilometraza = webDriver.findElement(By.xpath("//*[contains(text(), 'Kilometraža')]"));
+        Thread.sleep(1000);
+        kilometraza.click();
+        List<WebElement> kilo_od = webDriver.findElements(By.xpath("//input[@placeholder='od']"));
+        Thread.sleep(1000);
+        kilo_od.get(2).sendKeys("0");
+        List<WebElement> kilo_do = webDriver.findElements(By.xpath("//input[@placeholder='do']"));
+        Thread.sleep(1000);
+        kilo_do.get(2).sendKeys("500000");
+
+        WebElement brojVrata = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Broj vrata')]")));
+        Thread.sleep(1000);
+        brojVrata.click();
+        WebElement brojVrata4_5 = webDriver.findElement(By.xpath("//*[contains(text(), '4/5')]"));
+        Thread.sleep(1000);
+        brojVrata4_5.click();
+
+        Thread.sleep(10000);
+    }
+
+    @Test
+    public void filtrirajOglaseCijena() throws InterruptedException {
+        WebElement kategorijeLink = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/kategorije']")));
+        kategorijeLink.click();
+
+        WebElement kategorija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/pretraga?category_id=18']"))); //
+        kategorija.click();
+
+        WebElement proizvodjac = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Proizvođač')]")));
+        proizvodjac.click();
+
+        Select markaAutoa = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='cursor-pointer']"))));
+        Thread.sleep(1000);
+        markaAutoa.selectByVisibleText("Mercedes-Benz");
+
+        WebElement cijena = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Cijena')]")));
+        Thread.sleep(1000);
+        cijena.click();
+        WebElement od = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='od']")));
+        Thread.sleep(1000);
+        od.sendKeys("20000");
+        WebElement do_ = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='do']")));
+        Thread.sleep(1000);
+        do_.sendKeys("10000");
 
         WebElement lokacija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Lokacija')]")));
         Thread.sleep(1000);
