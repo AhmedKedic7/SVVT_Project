@@ -361,7 +361,7 @@ public class Main {
         poruka.get(1).click();
 
         WebElement textarea = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@class='flex-auto']")));
-        textarea.sendKeys("Test metode posaljiPoruku()");
+        textarea.sendKeys("This is an automated message.");
 
         WebElement posaljiPorukuBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Pošalji poruku')]]")));
         posaljiPorukuBtn.click();
