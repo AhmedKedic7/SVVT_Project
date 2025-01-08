@@ -24,7 +24,7 @@ public class Oglas {
 
     @BeforeEach
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "/home/ahmed/chromedriver-linux64/chromedriver"); // ovo promjeniti ako ti je na drugacijoj lokaciji (ako budes mijenjao nemoj brisati moje vec samo stavi pod komentar :D)
+        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
@@ -397,9 +397,11 @@ public class Oglas {
     @Test
     public void dodajOglasFavourites() throws InterruptedException {
         login();
-        webDriver.get("https://olx.ba/");
 
         WebElement listItem = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"__layout\"]/div/div[1]/div/div[1]/div[2]/div[7]/div[1]")));
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+        js.executeScript("window.scrollBy(0,500)");
+        Thread.sleep(2000);
         listItem.click();
 
         Thread.sleep(2000);
