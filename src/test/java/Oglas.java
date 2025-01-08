@@ -15,6 +15,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class Oglas {
     private static WebDriver webDriver;
     private static String baseUrl = "https://olx.ba/";
@@ -22,7 +24,7 @@ public class Oglas {
 
     @BeforeEach
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver"); // ovo promjeniti ako ti je na drugacijoj lokaciji (ako budes mijenjao nemoj brisati moje vec samo stavi pod komentar :D)
+        System.setProperty("webdriver.chrome.driver", "/home/ahmed/chromedriver-linux64/chromedriver"); // ovo promjeniti ako ti je na drugacijoj lokaciji (ako budes mijenjao nemoj brisati moje vec samo stavi pod komentar :D)
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
@@ -393,6 +395,27 @@ public class Oglas {
     }
 
     @Test
+    public void dodajOglasFavourites() throws InterruptedException {
+        login();
+        webDriver.get("https://olx.ba/");
+
+        WebElement listItem = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"__layout\"]/div/div[1]/div/div[1]/div[2]/div[7]/div[1]")));
+        listItem.click();
+
+        Thread.sleep(2000);
+
+        WebElement addToFavButton= webDriver.findElement(By.xpath("//*[@id=\"__layout\"]/div/div[1]/div/div[1]/div[2]/div/div[1]/div[1]/div[2]/div[2]/button[3]"));
+        addToFavButton.click();
+        Thread.sleep(500);
+
+        WebElement toastr = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.className("v-toast__text")));
+
+
+        assertEquals("Uspješno ste spasili oglas",toastr.getText());
+
+    }
+
+    @Test
     public void login() throws InterruptedException {
         WebElement loginBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
         loginBtn.click();
@@ -406,5 +429,7 @@ public class Oglas {
         loginBtn.click();
 
         Thread.sleep(3000);
+
+
     }
 }
