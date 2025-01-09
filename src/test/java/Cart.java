@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class Cart {
     private static WebDriver webDriver;
     private static String baseUrl = "https://olx.ba/";
@@ -67,6 +69,12 @@ public class Cart {
         List<WebElement> dodajUKorpu = webDriver.findElements(By.xpath("//button[.//text()[contains(., 'Dodaj u korpu')]]"));
         Thread.sleep(1000);
         dodajUKorpu.get(1).click();
+
+        WebElement parfemName = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='main-title-listing sm:hidden flex flex-row items-center mr-md']")));
+
+
+        WebElement toastr = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.className("v-toast__text")));
+        assertEquals("Uspješno ste dodali artikal " + parfemName.getText() + " u korpu", toastr.getText());
 
         Thread.sleep(3000);
     }

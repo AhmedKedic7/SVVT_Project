@@ -150,67 +150,53 @@ public class Oglas {
         markaAutoa.selectByVisibleText("Mercedes-Benz");
 
         WebElement cijena = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Cijena')]")));
-        Thread.sleep(1000);
         cijena.click();
         WebElement od = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='od']")));
-        Thread.sleep(1000);
         od.sendKeys("20000");
         WebElement do_ = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='do']")));
-        Thread.sleep(1000);
         do_.sendKeys("10000");
 
         WebElement lokacija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Lokacija')]")));
         Thread.sleep(1000);
         lokacija.click();
         Select lokacija_ = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='text-base font-bold border-none rounded-lg py-2 px-md search-bg']"))));
-        Thread.sleep(1000);
         lokacija_.selectByVisibleText("Kanton Sarajevo");
 
         WebElement godiste = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Godište')]")));
-        Thread.sleep(1000);
         godiste.click();
         Select god_od =  new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='mr-sm']"))));
-        Thread.sleep(1000);
         god_od.selectByVisibleText("2000");
         Select god_do = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='ml-sm']"))));
-        Thread.sleep(1000);
         god_do.selectByVisibleText("2025");
 
         WebElement gorivo = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Gorivo')]")));
-        Thread.sleep(1000);
         gorivo.click();
         WebElement dizel = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Dizel')]")));
-        Thread.sleep(1000);
         dizel.click();
         WebElement benzin = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Benzin')]")));
-        Thread.sleep(1000);
         benzin.click();
 
         WebElement transmisija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Transmisija')]")));
-        Thread.sleep(1000);
         transmisija.click();
         WebElement manuelni = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Manuelni')]")));
-        Thread.sleep(1000);
         manuelni.click();
 
         WebElement kilometraza = webDriver.findElement(By.xpath("//*[contains(text(), 'Kilometraža')]"));
-        Thread.sleep(1000);
         kilometraza.click();
         List<WebElement> kilo_od = webDriver.findElements(By.xpath("//input[@placeholder='od']"));
-        Thread.sleep(1000);
         kilo_od.get(2).sendKeys("0");
         List<WebElement> kilo_do = webDriver.findElements(By.xpath("//input[@placeholder='do']"));
-        Thread.sleep(1000);
         kilo_do.get(2).sendKeys("500000");
 
         WebElement brojVrata = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Broj vrata')]")));
-        Thread.sleep(1000);
         brojVrata.click();
         WebElement brojVrata4_5 = webDriver.findElement(By.xpath("//*[contains(text(), '4/5')]"));
-        Thread.sleep(1000);
         brojVrata4_5.click();
 
-        Thread.sleep(10000);
+        WebElement poruka = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='w-full px-md']/h1")));
+        assertEquals("Nema rezultata za traženi pojam", poruka.getText());
+
+        Thread.sleep(5000);
     }
 
     @Test

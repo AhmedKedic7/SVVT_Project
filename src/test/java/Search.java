@@ -12,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Search {
@@ -77,8 +78,8 @@ public class Search {
         pretraga.sendKeys("djfskfjsdklfjs");
         pretraga.sendKeys(Keys.ENTER);
 
-        WebElement item = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@data-v-20c6ee96='']")));
-        item.click();
+        WebElement poruka = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='w-full px-md']/h1")));
+        assertEquals("Nema rezultata za traženi pojam", poruka.getText());
 
         Thread.sleep(3000);
     }
@@ -143,7 +144,8 @@ public class Search {
         Thread.sleep(5000);
     }
 
-    /*Ovi storiji izgleda ne postoje vise  @Test
+    /*Ovi storiji izgleda ne postoje vise  :(
+    @Test
     public void listajStory() throws InterruptedException {
         WebElement idiDesnoButton = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@data-glide-dir='>']")));
 
