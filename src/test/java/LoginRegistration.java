@@ -214,7 +214,8 @@ public class LoginRegistration {
         WebElement olxShopBtn = webDriver.findElement(By.xpath("//ul[@class='register-types']//li[2]"));
         olxShopBtn.click();
 
-        List<WebElement> inputFields = webDriver.findElements(By.xpath("//input[@data-v-1c6f47e2='']")); // vraca sve input fieldove gdje se manuelno unosi nesto tj, nema selectanja (email, sifra, ime firme, id broj, telefon, web stranica)
+        List<WebElement> inputFields = webDriver.findElements(By.xpath("//input[@data-v-1c6f47e2='']"));
+
         WebElement email = inputFields.get(0);
         email.sendKeys("neki_email@gmail.com");
         WebElement sifra = inputFields.get(1);
@@ -254,5 +255,8 @@ public class LoginRegistration {
         registerBtn.click();
 
         Thread.sleep(5000);
+
+        assertEquals("https://olx.ba/vodic", webDriver.getCurrentUrl());
+        Thread.sleep(1000);
     }
 }
