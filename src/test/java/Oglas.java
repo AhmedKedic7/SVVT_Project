@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class Oglas {
     private static WebDriver webDriver;
@@ -24,7 +24,7 @@ public class Oglas {
 
     @BeforeEach
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/home/ahmed/chromedriver-linux64/chromedriver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
@@ -62,6 +62,9 @@ public class Oglas {
 
         WebElement kategorija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/pretraga?category_id=18']"))); //
         kategorija.click();
+
+        WebElement itemListBeforeFilters = webDriver.findElement(By.xpath("//div[@class='item-list']"));
+        String itemsBeforeFilters = itemListBeforeFilters.getText();
 
         WebElement proizvodjac = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Proizvođač')]")));
         proizvodjac.click();
@@ -131,7 +134,11 @@ public class Oglas {
         Thread.sleep(1000);
         brojVrata4_5.click();
 
+        WebElement itemListAfterFilters = webDriver.findElement(By.xpath("//div[@class='item-list']"));
+        String itemsAfterFilters = itemListAfterFilters.getText();
+
         Thread.sleep(10000);
+        assertNotEquals(itemsAfterFilters,itemListAfterFilters);
     }
 
     @Test

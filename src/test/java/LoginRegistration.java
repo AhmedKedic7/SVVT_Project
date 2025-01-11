@@ -73,6 +73,7 @@ public class LoginRegistration {
         assertEquals("Podaci nisu tačni.", toastr.getText());
 
         Thread.sleep(5000);
+
     }
 
     @Test
@@ -89,6 +90,8 @@ public class LoginRegistration {
         logoutBtn.click();
 
         Thread.sleep(5000);
+        WebElement loginAndRegisterBtn=webDriver.findElement(By.xpath("//*[@id=\"__layout\"]/div/header/div/div[1]/div[1]/div[2]"));
+        assertTrue(loginAndRegisterBtn.isDisplayed());
     }
 
     @Test
@@ -98,7 +101,7 @@ public class LoginRegistration {
         WebElement registerBtn =  webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/register']")));
         registerBtn.click();
 
-        List<WebElement> inputFields = webDriver.findElements(By.tagName("input")); // spol, regija i mjesto nisu uracunati jer su select, a ne input
+        List<WebElement> inputFields = webDriver.findElements(By.tagName("input"));
         WebElement email_brojTel = inputFields.get(0);
         WebElement sifra = inputFields.get(1);
         WebElement vaseOlxIme = inputFields.get(2);
@@ -124,6 +127,9 @@ public class LoginRegistration {
         registerBtn.click();
 
         Thread.sleep(5000);
+
+        assertEquals("https://olx.ba/vodic", webDriver.getCurrentUrl());
+        Thread.sleep(1000);
     }
 
     @Test
@@ -208,7 +214,8 @@ public class LoginRegistration {
         WebElement olxShopBtn = webDriver.findElement(By.xpath("//ul[@class='register-types']//li[2]"));
         olxShopBtn.click();
 
-        List<WebElement> inputFields = webDriver.findElements(By.xpath("//input[@data-v-1c6f47e2='']")); // vraca sve input fieldove gdje se manuelno unosi nesto tj, nema selectanja (email, sifra, ime firme, id broj, telefon, web stranica)
+        List<WebElement> inputFields = webDriver.findElements(By.xpath("//input[@data-v-1c6f47e2='']"));
+
         WebElement email = inputFields.get(0);
         email.sendKeys("neki_email@gmail.com");
         WebElement sifra = inputFields.get(1);
@@ -248,5 +255,8 @@ public class LoginRegistration {
         registerBtn.click();
 
         Thread.sleep(5000);
+
+        assertEquals("https://olx.ba/vodic", webDriver.getCurrentUrl());
+        Thread.sleep(1000);
     }
 }
