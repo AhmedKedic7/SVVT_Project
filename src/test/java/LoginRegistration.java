@@ -129,6 +129,7 @@ public class LoginRegistration {
         Thread.sleep(5000);
 
         assertEquals("https://olx.ba/vodic", webDriver.getCurrentUrl());
+        Thread.sleep(1000);
     }
 
     @Test
