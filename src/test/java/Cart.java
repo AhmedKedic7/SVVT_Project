@@ -82,7 +82,6 @@ public class Cart {
     @Test
     public void izbaciIzKorpe() throws InterruptedException {
         login();
-        //dodajUKorpu();
         webDriver.get(baseUrl);
         WebElement shoppingCart = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='flex items-center mr-md my-articles border-r border-gray-400 pr-md']")));
         shoppingCart.click();

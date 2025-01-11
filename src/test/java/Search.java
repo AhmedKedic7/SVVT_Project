@@ -47,7 +47,9 @@ public class Search {
         pretraga.sendKeys("mobitel");
         pretraga.sendKeys(Keys.ENTER);
 
+
         WebElement mobitel = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@data-v-20c6ee96='']")));
+        assertEquals("https://olx.ba/pretraga?q=mobitel", webDriver.getCurrentUrl());
         mobitel.click();
 
         Thread.sleep(1000);
