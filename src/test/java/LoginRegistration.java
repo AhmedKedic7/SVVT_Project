@@ -73,6 +73,7 @@ public class LoginRegistration {
         assertEquals("Podaci nisu tačni.", toastr.getText());
 
         Thread.sleep(5000);
+
     }
 
     @Test
@@ -89,6 +90,8 @@ public class LoginRegistration {
         logoutBtn.click();
 
         Thread.sleep(5000);
+        WebElement loginAndRegisterBtn=webDriver.findElement(By.xpath("//*[@id=\"__layout\"]/div/header/div/div[1]/div[1]/div[2]"));
+        assertTrue(loginAndRegisterBtn.isDisplayed());
     }
 
     @Test
@@ -98,7 +101,7 @@ public class LoginRegistration {
         WebElement registerBtn =  webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/register']")));
         registerBtn.click();
 
-        List<WebElement> inputFields = webDriver.findElements(By.tagName("input")); // spol, regija i mjesto nisu uracunati jer su select, a ne input
+        List<WebElement> inputFields = webDriver.findElements(By.tagName("input"));
         WebElement email_brojTel = inputFields.get(0);
         WebElement sifra = inputFields.get(1);
         WebElement vaseOlxIme = inputFields.get(2);
@@ -111,9 +114,6 @@ public class LoginRegistration {
         sifra.sendKeys("jakojakasifra312");
         vaseOlxIme.sendKeys("hd_asj_dha_h");
 
-        /*email_brojTel.sendKeys("svvt3567@gmail.com");
-        sifra.sendKeys("najjacasifraikada123");
-        vaseOlxIme.sendKeys("SVVTProjekat558");*/
         slazemSeSaUslovima.click();
 
         Select regija = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='Regija']"))));
@@ -127,6 +127,8 @@ public class LoginRegistration {
         registerBtn.click();
 
         Thread.sleep(5000);
+
+        assertEquals("https://olx.ba/vodic", webDriver.getCurrentUrl());
     }
 
     @Test
