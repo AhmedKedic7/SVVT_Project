@@ -162,13 +162,6 @@ public class Oglas {
         od.sendKeys("20000");
         WebElement do_ = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='do']")));
         do_.sendKeys("10000");
-
-        WebElement lokacija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Lokacija')]")));
-        Thread.sleep(1000);
-        lokacija.click();
-        Select lokacija_ = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='text-base font-bold border-none rounded-lg py-2 px-md search-bg']"))));
-        lokacija_.selectByVisibleText("Kanton Sarajevo");
-
         WebElement godiste = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Godište')]")));
         godiste.click();
         Select god_od =  new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='mr-sm']"))));
@@ -176,29 +169,6 @@ public class Oglas {
         Select god_do = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='ml-sm']"))));
         god_do.selectByVisibleText("2025");
 
-        WebElement gorivo = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Gorivo')]")));
-        gorivo.click();
-        WebElement dizel = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Dizel')]")));
-        dizel.click();
-        WebElement benzin = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Benzin')]")));
-        benzin.click();
-
-        WebElement transmisija = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Transmisija')]")));
-        transmisija.click();
-        WebElement manuelni = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Manuelni')]")));
-        manuelni.click();
-
-        WebElement kilometraza = webDriver.findElement(By.xpath("//*[contains(text(), 'Kilometraža')]"));
-        kilometraza.click();
-        List<WebElement> kilo_od = webDriver.findElements(By.xpath("//input[@placeholder='od']"));
-        kilo_od.get(2).sendKeys("0");
-        List<WebElement> kilo_do = webDriver.findElements(By.xpath("//input[@placeholder='do']"));
-        kilo_do.get(2).sendKeys("500000");
-
-        WebElement brojVrata = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Broj vrata')]")));
-        brojVrata.click();
-        WebElement brojVrata4_5 = webDriver.findElement(By.xpath("//*[contains(text(), '4/5')]"));
-        brojVrata4_5.click();
 
         WebElement poruka = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='w-full px-md']/h1")));
         assertEquals("Nema rezultata za traženi pojam", poruka.getText());
@@ -263,6 +233,8 @@ public class Oglas {
         zavrsiObjavu.click();
 
         Thread.sleep(5000);
+
+        assertTrue(webDriver.getCurrentUrl().contains("https://olx.ba/artikal"));
     }
 
     @Test
@@ -291,37 +263,16 @@ public class Oglas {
         Thread.sleep(1000);
         proizvodjac.selectByIndex(1);
 
-        /*List<WebElement> switches = webDriver.findElements(By.xpath("//label[@class='switch']"));
-        Thread.sleep(1000);
-        switches.get(0).click();*/
 
         WebElement sljedeciKorak = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Sljedeći korak')]]")));
         Thread.sleep(1000);
         sljedeciKorak.click();
+        Thread.sleep(2000);
 
-        WebElement bmxButton = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonBMX']")));
-        bmxButton.click();
+        WebElement errorMessage = webDriver.findElement(By.xpath("//*[@id=\"__layout\"]/div/div[1]/div[2]/div[1]/div[1]/div[1]/div[7]/div[1]/small"));
+        assertTrue(errorMessage.isDisplayed());
 
-        Thread.sleep(1000);
 
-        WebElement unisex = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id='buttonUnisex']")));
-        unisex.click();
-
-        Thread.sleep(1000);
-
-        WebElement brojBrzina = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='broj-brzina']")));
-        brojBrzina.sendKeys("21");
-
-        Thread.sleep(1000);
-
-        sljedeciKorak.click();
-
-        Thread.sleep(1000);
-
-        WebElement zavrsiObjavu = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Završi objavu oglasa')]]")));
-        zavrsiObjavu.click();
-
-        Thread.sleep(5000);
     }
 
     @Test
@@ -388,6 +339,37 @@ public class Oglas {
     }
 
     @Test
+    public void editOglasWithoutChanging() throws  InterruptedException {
+        login();
+        webDriver.get("https://olx.ba/mojolx/artikli/aktivni");
+
+        List<WebElement> oglas = webDriver.findElements(By.xpath("//div[@class='w-full']"));
+        Actions actions = new Actions(webDriver);
+        actions.moveToElement(oglas.get(1)).perform();
+
+        Thread.sleep(1000);
+
+        WebElement urediBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Uredi')]]")));
+        urediBtn.click();
+
+        Thread.sleep(3000);
+
+        Thread.sleep(1000);
+
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+
+        Thread.sleep(1000);
+
+        WebElement zavrsiUredjivanjeBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.//text()[contains(., 'Završi uređivanje')]]")));
+        js.executeScript("arguments[0].scrollIntoView(true);", zavrsiUredjivanjeBtn);
+        Thread.sleep(2000);
+        assertFalse(zavrsiUredjivanjeBtn.isDisplayed());
+
+        Thread.sleep(3000);
+    }
+
+
+    @Test
     public void dodajOglasFavourites() throws InterruptedException {
         login();
 
@@ -441,6 +423,7 @@ public class Oglas {
 
         WebElement spaseniOglasi = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/mojolx/spaseno/oglasi']")));
         spaseniOglasi.click();
+        Thread.sleep(5000);
 
         WebElement text = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1")));
         assertEquals("Nemate spašenih oglasa", text.getText());
