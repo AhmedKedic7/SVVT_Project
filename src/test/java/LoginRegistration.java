@@ -111,9 +111,6 @@ public class LoginRegistration {
         sifra.sendKeys("jakojakasifra312");
         vaseOlxIme.sendKeys("hd_asj_dha_h");
 
-        /*email_brojTel.sendKeys("svvt3567@gmail.com");
-        sifra.sendKeys("najjacasifraikada123");
-        vaseOlxIme.sendKeys("SVVTProjekat558");*/
         slazemSeSaUslovima.click();
 
         Select regija = new Select(webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@label='Regija']"))));

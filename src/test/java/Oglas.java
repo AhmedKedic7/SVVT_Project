@@ -404,6 +404,42 @@ public class Oglas {
     }
 
     @Test
+    public void izbaciOglasFavourites() throws InterruptedException {
+        login();
+
+        WebElement hamburger = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@src='/svg/menu.svg']")));
+        hamburger.click();
+        Thread.sleep(1000);
+
+        WebElement spaseniOglasi = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/mojolx/spaseno/oglasi']")));
+        spaseniOglasi.click();
+
+        WebElement removeBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='saved-article']/button")));
+        removeBtn.click();
+
+        WebElement toastr = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.className("v-toast__text")));
+
+        assertEquals("Uspješno ste izbrisali spašeni oglas", toastr.getText());
+
+        Thread.sleep(1000);
+    }
+
+    @Test
+    public void izbaciOglasFavouritesAkoNemaFavourites() throws InterruptedException {
+        login();
+
+        WebElement hamburger = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@src='/svg/menu.svg']")));
+        hamburger.click();
+        Thread.sleep(1000);
+
+        WebElement spaseniOglasi = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/mojolx/spaseno/oglasi']")));
+        spaseniOglasi.click();
+
+        WebElement text = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1")));
+        assertEquals("Nemate spašenih oglasa", text.getText());
+    }
+
+    @Test
     public void login() throws InterruptedException {
         WebElement loginBtn = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/login']")));
         loginBtn.click();
