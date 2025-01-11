@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoginRegistration {
     private static WebDriver webDriver;
@@ -17,7 +18,7 @@ public class LoginRegistration {
 
     @BeforeEach
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver"); // ovo promjeniti ako ti je na drugacijoj lokaciji (ako budes mijenjao nemoj brisati moje vec samo stavi pod komentar :D)
+        System.setProperty("webdriver.chrome.driver", "/home/ahmed/chromedriver-linux64/chromedriver"); // ovo promjeniti ako ti je na drugacijoj lokaciji (ako budes mijenjao nemoj brisati moje vec samo stavi pod komentar :D)
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
@@ -49,7 +50,10 @@ public class LoginRegistration {
         loginBtn = webDriver.findElement(By.xpath("//button[@data-v-3de08799='']"));
         loginBtn.click();
 
-        Thread.sleep(3000);
+        Thread.sleep(6000);
+        assertEquals(baseUrl, webDriver.getCurrentUrl());
+        WebElement profileLink=webDriver.findElement(By.xpath("//*[@id=\"__layout\"]/div/header/div/div[1]/div[1]/div[2]/div[2]"));
+        assertTrue(profileLink.isDisplayed());
     }
 
     @Test
